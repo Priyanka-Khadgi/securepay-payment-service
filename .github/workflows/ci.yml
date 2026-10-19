@@ -1,4 +1,5 @@
-﻿name: SecurePay CI
+﻿
+name: SecurePay CI
 
 on:
   push:
@@ -27,3 +28,16 @@ jobs:
 
       - name: Build and run tests
         run: ./mvnw --batch-mode --no-transfer-progress clean verify
+
+  secret-scan:
+    name: Scan for Secrets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code and history
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
